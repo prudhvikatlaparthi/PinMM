@@ -1,4 +1,4 @@
-package com.pru.pinmm;
+package com.pru.pinmm.model.response;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,4 +1,7 @@
-package com.pru.pinmm;
+package com.pru.pinmm.remote;
+
+import com.pru.pinmm.model.payloads.LoginPayload;
+import com.pru.pinmm.model.response.LoginResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
