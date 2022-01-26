@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PinMM</string>
+    <string name="loading">PinMM</string>
 </resources>

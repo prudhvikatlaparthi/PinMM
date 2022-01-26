@@ -32,6 +32,10 @@ public class MyPreferences {
         return sharedPreferences.getFloat(key,0f);
     }
 
+    public void clearMyPreferences(){
+        sharedPreferences.edit().clear().apply();
+    }
+
     //storing-------
 
     private final String keyLoggedUserId = "keyLoggedUserId";
