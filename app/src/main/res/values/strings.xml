@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">PinMM</string>
     <string name="loading">PinMM</string>
+    <string name="navigation_drawer_open">open navigation drawer</string>
+    <string name="navigation_drawer_close">close navigation drawer</string>
+    <string name="msg_please_wait">Please wait</string>
+    <string name="ok">Okay</string>
 </resources>

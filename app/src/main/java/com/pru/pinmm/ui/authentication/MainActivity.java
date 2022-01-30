@@ -1,112 +1,71 @@
 package com.pru.pinmm.ui.authentication;
 
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Base64;
-import android.util.Log;
-import android.widget.Toast;
+import android.view.Gravity;
+import android.view.MenuItem;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 
-import com.pru.pinmm.MyApplication;
+import com.google.android.material.navigation.NavigationView;
 import com.pru.pinmm.R;
 import com.pru.pinmm.databinding.ActivityMainBinding;
-import com.pru.pinmm.model.payloads.LoginPayload;
-import com.pru.pinmm.model.response.LoginResponse;
-import com.pru.pinmm.model.response.User;
-import com.pru.pinmm.remote.APIHelper;
-import com.pru.pinmm.utils.CommonUtils;
 
-import interfaces.DialogClickInterface;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class MainActivity extends AppCompatActivity {
-    private ProgressDialog pd;
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private ActivityMainBinding binding;
+    private ActionBarDrawerToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        com.pru.pinmm.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        pd = new ProgressDialog(this);
-        pd.setMessage(getString(R.string.loading));
-        binding.loginBtn.setText(MyApplication.getMyPreferences().getKeyLoggedUserId());
+        initializeNavigation();
+        onClickListener();
+        hideToolbar();
+    }
 
-        binding.loginBtn.setOnClickListener(v -> {
-            AlertDialog dialog = CommonUtils.showAlertDialog(this, "Success", true, "Ok", null, new DialogClickInterface() {
-                @Override
-                public void positiveClick(DialogInterface dialog) {
-//                    Intent(sdfsdf)
-                    dialog.dismiss();
-                    //Intent -> Validate Mpin
-                }
-
-                @Override
-                public void negativeClick(DialogInterface dialog) {
-                    dialog.dismiss();
-                }
-            });
-            dialog.show();
-            MyApplication.getMyPreferences().setKeyLoggedUserId("sdfsdfsdf");
-            LoginPayload payload = new LoginPayload();
-            String pword = "sdfsf";
-            payload.setEmailId("uName");
-            payload.setPassword(Base64.encodeToString(pword.getBytes(), Base64.NO_WRAP));
-            payload.setLoginMenuId("12313");
-
-            Call<LoginResponse> call = APIHelper.getRepository().authenticateUser(payload);
-            call.enqueue(new Callback<LoginResponse>() {
-                @Override
-                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                    pd.dismiss();
-                    Log.i("TAG", "onResponse: " + response);
-                    if (response.isSuccessful() && response.body() != null) {
-                        Log.i("TAG", "onResponse: " + response.body());
-                        LoginResponse response1 = response.body();
-                        String token = response1.getSessionToken();
-                        MyApplication.getMyPreferences().setKeySessionToken(token);
-                        User user = response1.getUser();
-                        int id = user.getUserId();
-                        MyApplication.getMyPreferences().setKeyUserId(id);
-                        // MPincreate -> save mpin
-                        // loginwithMPing -> validate -> MainActivity
-
-
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<LoginResponse> call, Throwable t) {
-                    pd.dismiss();
-                    Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            });
-
+    private void onClickListener() {
+        binding.imgMenu.setOnClickListener(v -> {
+            binding.drawerLayout.openDrawer(Gravity.LEFT);
         });
+    }
 
-        Call<String> call = APIHelper.getRepository().getUserDetail(new LoginPayload());
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+    private void initializeNavigation() {
+        toggle = new ActionBarDrawerToggle(this, binding.drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        binding.drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        binding.navigationView.setNavigationItemSelectedListener(this);
 
-            }
+    }
 
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        binding.drawerLayout.closeDrawers();
+        int id = item.getItemId();
+        if (id == R.id.home) {
+            startActivity(new Intent(this, HomeActivity.class));
+        } else if (id == R.id.settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
+        } else if (id == R.id.profile) {
+            startActivity(new Intent(this, ProfileActivity.class));
+        }
+        return false;
+    }
 
-            }
-        });
-        String mpin = "S" + "23";
-        if (TextUtils.isEmpty(MyApplication.getMyPreferences().getKeyMPIN())) {
-            // login
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        toggle.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
+    }
 
+    @Override
+    public void onBackPressed() {
+        if (binding.drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+            binding.drawerLayout.closeDrawers();
         } else {
-            // validate
+            super.onBackPressed();
         }
     }
 }

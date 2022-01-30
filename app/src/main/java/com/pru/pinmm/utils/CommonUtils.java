@@ -7,7 +7,7 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
 
-import interfaces.DialogClickInterface;
+import com.pru.pinmm.interfaces.DialogClickInterface;
 
 public class CommonUtils {
 
