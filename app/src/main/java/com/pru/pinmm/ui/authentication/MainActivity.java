@@ -1,5 +1,8 @@
 package com.pru.pinmm.ui.authentication;
 
+import static com.pru.pinmm.utils.CommonUtils.showAlertDialog;
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -7,10 +10,14 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.navigation.NavigationView;
+import com.pru.pinmm.MyApplication;
 import com.pru.pinmm.R;
 import com.pru.pinmm.databinding.ActivityMainBinding;
+import com.pru.pinmm.interfaces.DialogClickInterface;
+import com.pru.pinmm.ui.maps.MapsActivity;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     private ActivityMainBinding binding;
@@ -50,6 +57,26 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             startActivity(new Intent(this, SettingsActivity.class));
         } else if (id == R.id.profile) {
             startActivity(new Intent(this, ProfileActivity.class));
+        } else if (id == R.id.map) {
+            startActivity(new Intent(this, MapsActivity.class));
+        } else if (id == R.id.log_out) {
+           AlertDialog alertDialog =  showAlertDialog(this,
+                    "Are you sure to Logout?",
+                    false,
+                    "Yes", "No", new DialogClickInterface() {
+                        @Override
+                        public void positiveClick(DialogInterface dialog) {
+                            MyApplication.getMyPreferences().clearMyPreferences();
+                            dialog.dismiss();
+                            finish();
+                        }
+
+                        @Override
+                        public void negativeClick(DialogInterface dialog) {
+                            dialog.dismiss();
+                        }
+                    });
+            alertDialog.show();
         }
         return false;
     }
