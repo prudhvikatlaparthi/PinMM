@@ -3,6 +3,7 @@ package com.pru.pinmm.remote;
 import android.util.Log;
 
 import com.pru.pinmm.BuildConfig;
+import com.pru.pinmm.MyApplication;
 
 import java.util.concurrent.TimeUnit;
 
@@ -20,7 +21,7 @@ public class APIHelper {
         synchronized (APIHelper.class) {
             if (instance == null) {
                 instance = new Retrofit.Builder()
-                        .baseUrl(APIRepository.kBASEURL)
+                        .baseUrl(MyApplication.getMyPreferences().getKeyBASEURL())
                         .client(getClient())
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
@@ -56,5 +57,9 @@ public class APIHelper {
 
     public static APIRepository getRepository() {
         return APIHelper.getInstanceForStaticCall().create(APIRepository.class);
+    }
+
+    public static void resetRepository(){
+        instance = null;
     }
 }

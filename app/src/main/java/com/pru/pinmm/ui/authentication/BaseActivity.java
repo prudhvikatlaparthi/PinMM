@@ -1,12 +1,20 @@
 package com.pru.pinmm.ui.authentication;
 
+import static com.pru.pinmm.remote.APIRepository.kBASEURL;
+
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.pru.pinmm.MyApplication;
 import com.pru.pinmm.R;
+import com.pru.pinmm.remote.APIHelper;
 
 abstract public class BaseActivity extends AppCompatActivity {
 
@@ -49,6 +57,24 @@ abstract public class BaseActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(title);
         }
+        /*EditText baseedt = alrt.findviewby(R.id.sdfsd);
+        EditText gps = alrt.findviewby(R.id.sdfsd);
+        Button update = alrt.findviewby(R.id.sdfsd);
+        if (TextUtils.isEmpty(MyApplication.getMyPreferences().getKeyBASEURL())){
+            baseedt.setText(kBASEURL);
+            MyApplication.getMyPreferences().setKeyBASEURL(kBASEURL);
+        }else{
+            baseedt.setText(MyApplication.getMyPreferences().getKeyBASEURL());
+        }
+        gps.setText(MyApplication.getMyPreferences().getgps());
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyApplication.myPreferences.setKeyBASEURL(baseedt.getText().toString().trim());
+                MyApplication.myPreferences.se(baseedt.getText().toString().trim());
+                APIHelper.resetRepository();
+            }
+        });*/
 
     }
 

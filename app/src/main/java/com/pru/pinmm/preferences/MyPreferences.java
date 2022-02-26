@@ -77,4 +77,14 @@ public class MyPreferences {
     public void setKeyMPIN(String value) {
         setPref(keyMPIN,value);
     }
+
+    private final String keyBASEURL = "keyBASEURL";
+
+    public String getKeyBASEURL() {
+        return getPrefString(keyBASEURL);
+    }
+
+    public void setKeyBASEURL(String value) {
+        setPref(keyBASEURL,value);
+    }
 }

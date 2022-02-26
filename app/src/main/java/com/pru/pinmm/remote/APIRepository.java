@@ -12,6 +12,7 @@ import retrofit2.http.POST;
 public interface APIRepository {
 
     public static final String kBASEURL = "http:sdfsdffsdf";
+    public static final String kGPSBASEURL = "http:sdfsdffssdffdf";
 
     @POST("Login/validate")
     Call<LoginResponse> authenticateUser(@Body LoginPayload payload);
