@@ -1,90 +1,67 @@
-package com.pru.pinmm.preferences;
+package com.pru.pinmm.preferences
 
-import android.content.SharedPreferences;
+import android.content.SharedPreferences
 
-public class MyPreferences {
-    private final SharedPreferences sharedPreferences;
-    public MyPreferences(SharedPreferences sharedPreferences) {
-        this.sharedPreferences = sharedPreferences;
+class MyPreferences(private val sharedPreferences: SharedPreferences) {
+    private fun setPref(key: String, value: String?) {
+        sharedPreferences.edit().putString(key, value).apply()
     }
 
-    private void setPref(String key, String value){
-        sharedPreferences.edit().putString(key,value).apply();
+    private fun setPref(key: String, value: Int?) {
+        sharedPreferences.edit().putInt(key, value ?: 0).apply()
     }
 
-    private void setPref(String key, int value){
-        sharedPreferences.edit().putInt(key,value).apply();
+    private fun setPref(key: String, value: Float?) {
+        sharedPreferences.edit().putFloat(key, value ?: 0f).apply()
     }
 
-    private void setPref(String key, float value){
-        sharedPreferences.edit().putFloat(key,value).apply();
+    private fun getPrefString(key: String): String {
+        return sharedPreferences.getString(key, null) ?: ""
     }
 
-    private String getPrefString(String key){
-        return sharedPreferences.getString(key,null);
+    private fun getPrefInt(key: String): Int {
+        return sharedPreferences.getInt(key, 0)
     }
 
-    private int getPrefInt(String key){
-        return sharedPreferences.getInt(key,0);
+    private fun getPrefFloat(key: String): Float {
+        return sharedPreferences.getFloat(key, 0f)
     }
 
-    private float getPrefFloat(String key){
-        return sharedPreferences.getFloat(key,0f);
-    }
-
-    public void clearMyPreferences(){
-        sharedPreferences.edit().clear().apply();
+    fun clearMyPreferences() {
+        sharedPreferences.edit().clear().apply()
     }
 
     //storing-------
+    var keyLoggedUserId: String
+        get() = getPrefString("keyLoggedUserId")
+        set(value) = setPref("keyLoggedUserId", value)
 
-    private final String keyLoggedUserId = "keyLoggedUserId";
+    var keySessionToken: String
+        get() = getPrefString("keySessionToken")
+        set(value) = setPref("keySessionToken", value)
 
-    public String getKeyLoggedUserId() {
-        return getPrefString(keyLoggedUserId);
-    }
+    var keyUserId: Int
+        get() = getPrefInt("keyUserId")
+        set(value) = setPref("keyUserId", value)
 
-    public void setKeyLoggedUserId(String value) {
-        setPref(keyLoggedUserId,value);
-    }
+    var keyMPIN: String
+        get() = getPrefString("keyMPIN")
+        set(value) = setPref("keyMPIN", value)
 
-    private final String keySessionToken = "keySessionToken";
+    var keyBaseUrl: String
+        get() = getPrefString("keyBaseUrl")
+        set(value) = setPref("keyBaseUrl", value)
 
-    public String getKeySessionToken() {
-        return getPrefString(keySessionToken);
-    }
+    var latitude: String
+        get() = getPrefString("Latitude")
+        set(value) = setPref("Latitude", value)
 
-    public void setKeySessionToken(String value) {
-        setPref(keySessionToken,value);
-    }
+    var longitude: String
+        get() = getPrefString("Longitude")
+        set(value) = setPref("Longitude", value)
 
-    private final String keyUserId = "keyUserId";
+    var serialNumber: String
+        get() = getPrefString("SERIAL_NUMBER")
+        set(value) = setPref("SERIAL_NUMBER", value)
 
-    public int getKeyUserId() {
-        return getPrefInt(keyUserId);
-    }
-
-    public void setKeyUserId(int value) {
-        setPref(keyUserId,value);
-    }
-
-    private final String keyMPIN = "keyMPIN";
-
-    public String getKeyMPIN() {
-        return getPrefString(keyMPIN);
-    }
-
-    public void setKeyMPIN(String value) {
-        setPref(keyMPIN,value);
-    }
-
-    private final String keyBASEURL = "keyBASEURL";
-
-    public String getKeyBASEURL() {
-        return getPrefString(keyBASEURL);
-    }
-
-    public void setKeyBASEURL(String value) {
-        setPref(keyBASEURL,value);
-    }
 }

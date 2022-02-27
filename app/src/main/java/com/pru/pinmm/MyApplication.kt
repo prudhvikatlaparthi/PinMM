@@ -1,34 +1,35 @@
-package com.pru.pinmm;
+package com.pru.pinmm
 
-import android.app.Application;
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
+import com.pru.pinmm.preferences.MyPreferences
 
-import com.pru.pinmm.preferences.MyPreferences;
-
-public class MyApplication extends Application {
-
-    public static MyPreferences myPreferences;
-    private static MyApplication application;
-    private static SharedPreferences sharedPreferences;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        application = this;
+class MyApplication : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        application = this
     }
 
-    public static Context getContext() {
-        return application.getApplicationContext();
-    }
+    companion object {
+        private var myPreferences: MyPreferences? = null
+        private var application: MyApplication? = null
+        private var sharedPreferences: SharedPreferences? = null
+        val context: Context
+            get() = application!!.applicationContext
 
-    public static MyPreferences getMyPreferences() {
-        synchronized (MyApplication.class) {
-            if (sharedPreferences == null) {
-                sharedPreferences = getContext().getSharedPreferences(BuildConfig.APPLICATION_ID + "_preferences", Context.MODE_PRIVATE);
-                myPreferences = new MyPreferences(sharedPreferences);
+        @JvmStatic
+        fun getMyPreferences(): MyPreferences {
+            synchronized(MyApplication::class.java) {
+                if (sharedPreferences == null) {
+                    sharedPreferences = context.getSharedPreferences(
+                        BuildConfig.APPLICATION_ID + "_preferences",
+                        MODE_PRIVATE
+                    )
+                    myPreferences = MyPreferences(sharedPreferences!!)
+                }
+                return myPreferences!!
             }
-            return myPreferences;
         }
     }
 }
