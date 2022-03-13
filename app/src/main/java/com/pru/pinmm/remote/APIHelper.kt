@@ -18,7 +18,7 @@ object APIHelper {
             synchronized(APIHelper::class.java) {
                 if (instance == null) {
                     instance = Retrofit.Builder()
-                        .baseUrl(MyApplication.getMyPreferences().keyBaseUrl)
+                        .baseUrl(MyApplication.getMyPreferences().keyBaseUrl.ifEmpty { APIRepository.kBASEURL })
                         .client(client)
                         .addConverterFactory(GsonConverterFactory.create())
                         .build()

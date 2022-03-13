@@ -1,20 +1,12 @@
 package com.pru.pinmm.ui.authentication;
 
-import static com.pru.pinmm.remote.APIRepository.kBASEURL;
-
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.pru.pinmm.MyApplication;
 import com.pru.pinmm.R;
-import com.pru.pinmm.remote.APIHelper;
 
 abstract public class BaseActivity extends AppCompatActivity {
 

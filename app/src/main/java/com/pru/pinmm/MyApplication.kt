@@ -6,23 +6,20 @@ import android.content.SharedPreferences
 import com.pru.pinmm.preferences.MyPreferences
 
 class MyApplication : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        application = this
-    }
-
     companion object {
         private var myPreferences: MyPreferences? = null
-        private var application: MyApplication? = null
         private var sharedPreferences: SharedPreferences? = null
-        val context: Context
-            get() = application!!.applicationContext
+        private var application: MyApplication? = null
+
+        fun getContext(): Context {
+            return application!!.applicationContext
+        }
 
         @JvmStatic
         fun getMyPreferences(): MyPreferences {
             synchronized(MyApplication::class.java) {
                 if (sharedPreferences == null) {
-                    sharedPreferences = context.getSharedPreferences(
+                    sharedPreferences = getContext().getSharedPreferences(
                         BuildConfig.APPLICATION_ID + "_preferences",
                         MODE_PRIVATE
                     )
@@ -31,5 +28,10 @@ class MyApplication : Application() {
                 return myPreferences!!
             }
         }
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        application = this
     }
 }

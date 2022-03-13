@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
@@ -19,15 +20,23 @@ import com.pru.pinmm.MyApplication.Companion.getMyPreferences
 import com.pru.pinmm.R
 import com.pru.pinmm.databinding.ActivityMainBinding
 import com.pru.pinmm.interfaces.DialogClickInterface
+import com.pru.pinmm.model.payloads.LoginPayload
+import com.pru.pinmm.model.response.LoginResponse
+import com.pru.pinmm.model.response.VehicleItem
+import com.pru.pinmm.remote.APIHelper
 import com.pru.pinmm.ui.maps.MapsActivity
 import com.pru.pinmm.utils.CommonUtils
 import com.pru.pinmm.utils.CommonUtils.isPermissionGranted
 import com.pru.pinmm.utils.CommonUtils.showAlertDialog
 import com.pru.pinmm.utils.Constants.REQUEST_PHONE_STATE
 import com.pru.pinmm.utils.LocationHelper
+import com.pru.pinmm.utils.ObjectHolder
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var binding: ActivityMainBinding
@@ -43,6 +52,66 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         initializeNavigation()
         onClickListener()
         hideToolbar()
+        val vehiclesData : ArrayList<VehicleItem> = arrayListOf()
+        val vehicleItem1 = VehicleItem(
+            vehId = 1,
+            vehicleRegNo = "11sdf4fsd",
+            vehicleType = "sfs4",
+            isSelected = false
+        )
+        val vehicleItem2 = VehicleItem(
+            vehId = 2,
+            vehicleRegNo = "22sdf4fsd",
+            vehicleType = "sfs4",
+            isSelected = false
+        )
+        val vehicleItem3 = VehicleItem(
+            vehId = 3,
+            vehicleRegNo = "33sdf4fsd",
+            vehicleType = "sfs4",
+            isSelected = false
+        )
+        val vehicleItem4 = VehicleItem(
+            vehId = 4,
+            vehicleRegNo = "44sdf4fsd",
+            vehicleType = "sfs4",
+            isSelected = false
+        )
+
+        vehiclesData.add(vehicleItem1)
+        vehiclesData.add(vehicleItem2)
+        vehiclesData.add(vehicleItem3)
+        vehiclesData.add(vehicleItem4)
+
+        MyApplication.getMyPreferences().keySessionToken = "sdfsdfsd"
+
+        val payload = LoginPayload(emailId = "", password = "")
+        APIHelper.repository.authenticateUser(payload).enqueue(object : Callback<LoginResponse> {
+            override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
+                Log.i("Prudhvi Log", "onResponse: $response")
+                if (response.isSuccessful && response.body() != null) {
+                    val loginResponse = response.body()!!
+                    /*loginResponse.sessionToken?.let{
+                        MyApplication.getMyPreferences().keySessionToken = it
+                    }*/
+
+
+                }
+            }
+
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                Log.i("Prudhvi Log", "onFailure: $t")
+            }
+
+        })
+
+        binding.btnStartTrip.setOnClickListener {
+
+            ObjectHolder.resetVehicles()
+            ObjectHolder.setVehicles(vehiclesData)
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun initViews() {
@@ -87,14 +156,14 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun onClickListener() {
         binding.imgMenu.setOnClickListener { v: View? -> binding.drawerLayout.openDrawer(Gravity.LEFT) }
-        binding.btnStartTrip.setOnClickListener {
+        /*binding.btnStartTrip.setOnClickListener {
             lifecycleScope.launch {
                 while (true) {
                     locationHelper?.fetchLocation()
                     delay(15_000)
                 }
             }
-        }
+        }*/
     }
 
     private fun initializeNavigation() {
