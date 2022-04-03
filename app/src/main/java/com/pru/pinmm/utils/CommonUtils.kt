@@ -1,13 +1,17 @@
 package com.pru.pinmm.utils
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.pm.PackageManager
+import android.view.View
+import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.pru.pinmm.R
 import com.pru.pinmm.interfaces.DialogClickInterface
 import java.text.SimpleDateFormat
 import java.util.*
@@ -49,6 +53,14 @@ object CommonUtils {
             ) { dialog, id -> dialogClickInterface.negativeClick(dialog) }
         }
         return builder1.create()
+    }
+
+    fun showCustomAlertDialog(context: Context, layoutView: View) {
+        val dialog = Dialog(context, R.style.CustomFilterDialogTransparent)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(layoutView)
+        dialog.show()
     }
 
     @JvmStatic

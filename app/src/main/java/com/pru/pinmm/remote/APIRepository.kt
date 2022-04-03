@@ -4,6 +4,8 @@ import com.pru.pinmm.model.payloads.LoginPayload
 import com.pru.pinmm.model.payloads.MapAPIPayload
 import com.pru.pinmm.model.response.LoginResponse
 import com.pru.pinmm.model.response.MapResponse
+import com.pru.pinmm.model.response.ProfileResponse
+import com.pru.pinmm.model.response.StartedResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -22,4 +24,10 @@ interface APIRepository {
 
     @POST("loginmobile/login")
     fun getMapDetails(@Body payload: MapAPIPayload?): Call<MapResponse?>?
+
+    @POST("loginmobile/profile")
+    fun getProfile(@Body payload: LoginPayload): Call<ProfileResponse>
+
+    @POST("loginmobile/startTrip")
+    fun startTrip(@Body payload: LoginPayload): Call<StartedResponse>
 }

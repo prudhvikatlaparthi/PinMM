@@ -26,6 +26,7 @@ import com.pru.pinmm.model.response.VehicleItem
 import com.pru.pinmm.remote.APIHelper
 import com.pru.pinmm.ui.maps.MapsActivity
 import com.pru.pinmm.utils.CommonUtils
+import com.pru.pinmm.utils.CommonUtils.getCurrentTimeStamp
 import com.pru.pinmm.utils.CommonUtils.isPermissionGranted
 import com.pru.pinmm.utils.CommonUtils.showAlertDialog
 import com.pru.pinmm.utils.Constants.REQUEST_PHONE_STATE
@@ -105,13 +106,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         })
 
-        binding.btnStartTrip.setOnClickListener {
+        /*binding.btnStartTrip.setOnClickListener {
 
             ObjectHolder.resetVehicles()
             ObjectHolder.setVehicles(vehiclesData)
             val intent = Intent(this, HomeActivity::class.java)
             startActivity(intent)
-        }
+        }*/
     }
 
     private fun initViews() {
@@ -156,14 +157,27 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun onClickListener() {
         binding.imgMenu.setOnClickListener { v: View? -> binding.drawerLayout.openDrawer(Gravity.LEFT) }
-        /*binding.btnStartTrip.setOnClickListener {
-            lifecycleScope.launch {
+        binding.btnStartTrip.setOnClickListener {
+            /*lifecycleScope.launch {
                 while (true) {
                     locationHelper?.fetchLocation()
                     delay(15_000)
                 }
-            }
-        }*/
+            }*/
+            val selectedTimeStamp = getCurrentTimeStamp()
+            val message = "sdfsfdewfe currentTimeStamp ${selectedTimeStamp}"
+            val alertDialog = showAlertDialog(context = this, message =message,isCancelable = false, positiveBtnName = "Ok", negativeBtnName = "Cancel", dialogClickInterface = object :DialogClickInterface{
+                override fun positiveClick(dialog: DialogInterface?) {
+                    // API CAll
+
+                }
+
+                override fun negativeClick(dialog: DialogInterface?) {
+                    dialog?.dismiss()
+                }
+            })
+            alertDialog.show()
+        }
     }
 
     private fun initializeNavigation() {
