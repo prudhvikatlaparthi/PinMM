@@ -11,6 +11,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.databinding.ViewDataBinding
 import com.pru.pinmm.R
 import com.pru.pinmm.interfaces.DialogClickInterface
 import java.text.SimpleDateFormat
@@ -96,5 +97,17 @@ object CommonUtils {
             }
         } else permissionGranted = false
         return permissionGranted
+    }
+
+    fun Context.showMyDialog(
+        dBinding: ViewDataBinding,
+        isCancelable: Boolean = true,
+        afterInit: (dialog: Dialog) -> Unit
+    ) {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(isCancelable)
+        dialog.setContentView(dBinding.root)
+        afterInit.invoke(dialog)
     }
 }
