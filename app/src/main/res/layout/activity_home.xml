@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.authentication.HomeActivity">
 
     <LinearLayout
@@ -17,7 +17,7 @@
         <TextView
             android:id="@+id/tvSelectedVeh"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/btnVehicles"
@@ -73,11 +73,23 @@
             app:iconifiedByDefault="false"
             app:queryHint="Search" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcVehicles"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcVehicles"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <TextView
+                android:id="@+id/tvNoVehFound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="no data found"
+                android:visibility="gone" />
+        </FrameLayout>
 
         <Button
             android:id="@+id/btnVehicleDone"

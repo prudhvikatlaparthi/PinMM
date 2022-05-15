@@ -20,6 +20,14 @@ class HomeActivity : BaseActivity() {
                 it.isSelected = it.vehId == item.vehId
             }
             adapter.notifyDataSetChanged()
+        }, sendListSizeListener = { size ->
+            if (size > 0) {
+                binding.rcVehicles.isVisible = true
+                binding.tvNoVehFound.isVisible = false
+            } else {
+                binding.rcVehicles.isVisible = false
+                binding.tvNoVehFound.isVisible = true
+            }
         })
     }
     private var selectedVehicle : VehicleItem? = null

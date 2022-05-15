@@ -13,7 +13,8 @@ import com.pru.pinmm.model.response.VehicleItem
 
 class VehicleListAdapter(
     private val vehicleList: ArrayList<VehicleItem>,
-    private val listener: ((item: VehicleItem) -> Unit)? = null
+    private val listener: ((item: VehicleItem) -> Unit)? = null,
+    private val sendListSizeListener: ((size: Int) -> Unit)? = null,
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
     private var filterList: ArrayList<VehicleItem> = vehicleList
@@ -73,6 +74,7 @@ class VehicleListAdapter(
             override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
                 val result = p1?.values as ArrayList<VehicleItem>
                 filterList = result
+                sendListSizeListener?.invoke(filterList.size)
                 notifyDataSetChanged()
             }
 
